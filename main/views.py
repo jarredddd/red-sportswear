@@ -8,7 +8,8 @@ def show_main(request):
         'nama_produk' : 'Adizero Evo SL',
         'harga' : 2700000,
         'kategori': 'Sepatu Running',
-        'deskripsi': 'Sepatu yang ringan dan nyaman jika digunakan untuk lari'
+        'deskripsi': 'Sepatu yang ringan dan nyaman jika digunakan untuk lari',
+        'stok' : '9'
     }
 
     return render(request, "main.html", context)

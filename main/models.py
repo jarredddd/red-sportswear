@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 
-class News(models.Model):
+class Product(models.Model):
     CATEGORY_CHOICES = [
         ('sepatu running', 'Sepatu Running'),
         ('jersey', 'Jersey'),
@@ -22,7 +22,7 @@ class News(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField(default=0)
     description = models.TextField()
-    stok = models.PositiveIntegerField
+    stok = models.PositiveIntegerField(default=0)
 
     
     def __str__(self):
