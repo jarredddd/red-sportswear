@@ -1,4 +1,4 @@
-TUGAS 2
+TUGAS 2 ----------------------------------------------------------
 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 - Membuat sebuah proyek Django baru. -> Pertama, saya buat direktori baru dan mengaktifkan virtual environment. Setelah itu, saya menginstall beberapa dependencies. Lalu, saya membuat file .env.prod yang berisikan kredensial yang diberikan lewat e-mail dan membuat file .env yang berisikan 'Production=False'. Dan yang terakhir, saya menambah dan mengubah isi dari file settings.py yang berada di dalam folder 'red_sportswear' 
 
@@ -47,7 +47,8 @@ https://www.canva.com/design/DAGyf23R2gQ/pyGD0nDHIO8a9uqFaUmX_w/view?utm_content
 6. Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
     Sejauh ini tidak ada, sudah membantu saya untuk mengerjakan tutorial dengan baik.
 
-TUGAS 3
+TUGAS 3 ----------------------------------------------------------
+
 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
 Karena data delivery memungkinkan platform untuk mendapatkan update data secara real-time, seperti notifikasi, chat, dan lain-lain. Data delivery juga memungkinkan kemampuan berbagai sistem untuk berinteraksi dan bekerja sama secara efektif dengan menggunakan format yang konsisten. Dalam konteks platform, sistem-sistem tersebut adalah aplikasi web, mobile, dan API dari pihak ketiga.
 
@@ -73,3 +74,25 @@ Jika tidak menggunakan csrf_token, penyerang dapat membuat form palsu di website
 
 6. Asdos sudah sangat membantu saya dalam mengerjakan tutorial 2
 
+TUGAS 4 ----------------------------------------------------------
+
+1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya. Django AuthenticationForm adalah sebuah class bawaan Django yang berfungsi untuk menjalankan proses login. AuthenticationForm menerima 2 field input, yaitu username dan password dan akan membandingkan 2 field tersebut dengan data user yang ada di dalam database. Kelebihan dan kekurangan dari AuthenticationForm adalah : 
+    a. Kelebihan : 
+    Karena sudah bawaan dari Django, maka pengimplementasiannya cepat dan juga mudah, kita gausahnulis logic buat validasinya dari awal, tinggal pakai.
+    AuthenticationForm juga punya basic untuk menjalankansistem login.
+    b. Kekurangan : 
+    Karena AuthenticationForm hanya menerima username, untuk keperluan login akun menggunakan email, kita harus memodifikasi AuthenticationForm. Penampilannya juga masih basic, sehingga diperlukan untuk menggunakan CSS agar penampilannya lebih menarik.
+
+2. Apa perbedaan antara autentikasi dan otorisasi? Bagaiamana Django mengimplementasikan kedua konsep tersebut?
+Autentifikasi itu adalah memverifikasi user, seperti saat login, user akan memasukkan username dan password. Lalu, sistem akan membandingkan input usernam dan password user dengan data user yang ada di database. Sedangkan otorisasi adalah menentukan hal-hal yang bisa dilakukan dan yang tidak bisa dilakukan oleh user. Django mengimplementasikan autentikasi dengan AuthenticationForm. Sedangkan untuk otorisasi, django mengimplementasikannya dengan decorator yang ada di views.py, yaitu '@login_required' yang berada di atas fungsi 'show_main' dan 'show_products'. Saat decorator tersebut ditaruh diatas kedua fungsi tersebut, maka halaman utama dan detail produk tidak bisa diakses oleh user yang sudah login.
+
+3. Apa saja kelebihan dan kekurangan session dan cookies dalam konteks menyimpan state di aplikasi web?
+    a. Session
+    Session mempunyai tingkat keamanan yang lebih tinggi karena penyimpanan datanya di server, bukan client-side. Penyimpanan datanya juga punya kapasitas yang mengikuti database server yang terkadang besar. Karena penyimpanan data di server, maka server mempunyai workload yang lebih berat, session juga mempunyai masa berlaku yang terbatas. Contohnya, Scele. Sesi user akan otomatis berhenti jika sudah lama tidak digunakan oleh user.
+
+    b. Cookies
+    Karena cookies menyimpan data secara client-side, maka cookies tidak terlalu membebani server. Cookies juga mempunyai masa berlaku yang sangat lama, tidak seperti session. Namun, karena cookies disimpan di browser, maka cookies rentan terhadap serangan pihak ketiga. Contohnya adalah penyerang dapat mencuri cookies ketika kita mengakses situs web yang tidak menggunakan https dengan wifi publik. Cookies juga mempunyai kapasitas yang terbatas, yaitu sekitar 4 kb / domain yang hanya bisa menyimpan data teks yang sedikit.
+
+4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+
+Tidak, penggunaaan cookies
