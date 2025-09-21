@@ -74,6 +74,18 @@ Jika tidak menggunakan csrf_token, penyerang dapat membuat form palsu di website
 
 6. Asdos sudah sangat membantu saya dalam mengerjakan tutorial 2
 
+7. Berikut screenshot dari Postman : 
+<img width="2559" height="1599" alt="Screenshot 2025-09-13 214615" src="https://github.com/user-attachments/assets/48174a49-0368-4da8-925b-eeefc7118d91" />
+<img width="2559" height="1599" alt="Screenshot 2025-09-13 214627" src="https://github.com/user-attachments/assets/85abde67-9cfb-4a93-b1c5-9463f9cc2050" />
+<img width="2559" height="1599" alt="Screenshot 2025-09-13 214732" src="https://github.com/user-attachments/assets/e7cc2699-b3ca-450b-a947-ffa3fc564db6" />
+<img width="2538" height="1584" alt="Screenshot 2025-09-13 215059" src="https://github.com/user-attachments/assets/7655e24d-dc46-4159-9247-a5dfecbdc0fe" />
+
+7. Berikut screenshot dari Postman : 
+<img width="2559" height="1599" alt="Screenshot 2025-09-13 214615" src="https://github.com/user-attachments/assets/48174a49-0368-4da8-925b-eeefc7118d91" />
+<img width="2559" height="1599" alt="Screenshot 2025-09-13 214627" src="https://github.com/user-attachments/assets/85abde67-9cfb-4a93-b1c5-9463f9cc2050" />
+<img width="2559" height="1599" alt="Screenshot 2025-09-13 214732" src="https://github.com/user-attachments/assets/e7cc2699-b3ca-450b-a947-ffa3fc564db6" />
+<img width="2538" height="1584" alt="Screenshot 2025-09-13 215059" src="https://github.com/user-attachments/assets/7655e24d-dc46-4159-9247-a5dfecbdc0fe" />
+
 TUGAS 4 ----------------------------------------------------------
 
 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya. Django AuthenticationForm adalah sebuah class bawaan Django yang berfungsi untuk menjalankan proses login. AuthenticationForm menerima 2 field input, yaitu username dan password dan akan membandingkan 2 field tersebut dengan data user yang ada di dalam database. Kelebihan dan kekurangan dari AuthenticationForm adalah : 
