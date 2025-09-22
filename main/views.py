@@ -24,13 +24,8 @@ def show_main(request):
 
     context = {
         'npm' : '2406432425',
-        'nama' : 'Jarred Muhammad Radithya',
+        'nama' : request.user.username,
         'kelas' : 'PBP D',
-        'nama_produk' : 'Adizero Evo SL',
-        'harga' : 2700000,
-        'kategori': 'Sepatu Running',
-        'deskripsi': 'Sepatu yang ringan dan nyaman jika digunakan untuk lari',
-        'stok' : '9',
         'products_list' : products_list,
         'last_login': request.COOKIES.get('last_login', 'Never')
     }

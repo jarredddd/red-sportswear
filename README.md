@@ -1,4 +1,5 @@
-TUGAS 2 ----------------------------------------------------------
+TUGAS 2 ----------------------------------------------------------------------------------------------------------------------------------------------
+
 1. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
 - Membuat sebuah proyek Django baru. -> Pertama, saya buat direktori baru dan mengaktifkan virtual environment. Setelah itu, saya menginstall beberapa dependencies. Lalu, saya membuat file .env.prod yang berisikan kredensial yang diberikan lewat e-mail dan membuat file .env yang berisikan 'Production=False'. Dan yang terakhir, saya menambah dan mengubah isi dari file settings.py yang berada di dalam folder 'red_sportswear' 
 
@@ -47,7 +48,7 @@ https://www.canva.com/design/DAGyf23R2gQ/pyGD0nDHIO8a9uqFaUmX_w/view?utm_content
 6. Apakah ada feedback untuk asisten dosen tutorial 1 yang telah kamu kerjakan sebelumnya?
     Sejauh ini tidak ada, sudah membantu saya untuk mengerjakan tutorial dengan baik.
 
-TUGAS 3 ----------------------------------------------------------
+TUGAS 3 ----------------------------------------------------------------------------------------------------------------------------------------------
 
 1. Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
 Karena data delivery memungkinkan platform untuk mendapatkan update data secara real-time, seperti notifikasi, chat, dan lain-lain. Data delivery juga memungkinkan kemampuan berbagai sistem untuk berinteraksi dan bekerja sama secara efektif dengan menggunakan format yang konsisten. Dalam konteks platform, sistem-sistem tersebut adalah aplikasi web, mobile, dan API dari pihak ketiga.
@@ -80,8 +81,7 @@ Jika tidak menggunakan csrf_token, penyerang dapat membuat form palsu di website
 <img width="2559" height="1599" alt="Screenshot 2025-09-13 214732" src="https://github.com/user-attachments/assets/e7cc2699-b3ca-450b-a947-ffa3fc564db6" />
 <img width="2538" height="1584" alt="Screenshot 2025-09-13 215059" src="https://github.com/user-attachments/assets/7655e24d-dc46-4159-9247-a5dfecbdc0fe" />
 
-
-TUGAS 4 ----------------------------------------------------------
+TUGAS 4 ----------------------------------------------------------------------------------------------------------------------------------------------
 
 1. Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya. Django AuthenticationForm adalah sebuah class bawaan Django yang berfungsi untuk menjalankan proses login. AuthenticationForm menerima 2 field input, yaitu username dan password dan akan membandingkan 2 field tersebut dengan data user yang ada di dalam database. Kelebihan dan kekurangan dari AuthenticationForm adalah : 
     a. Kelebihan : 
@@ -101,5 +101,19 @@ Autentifikasi itu adalah memverifikasi user, seperti saat login, user akan memas
     Karena cookies menyimpan data secara client-side, maka cookies tidak terlalu membebani server. Cookies juga mempunyai masa berlaku yang sangat lama, tidak seperti session. Namun, karena cookies disimpan di browser, maka cookies rentan terhadap serangan pihak ketiga. Contohnya adalah penyerang dapat mencuri cookies ketika kita mengakses situs web yang tidak menggunakan https dengan wifi publik. Cookies juga mempunyai kapasitas yang terbatas, yaitu sekitar 4 kb / domain yang hanya bisa menyimpan data teks yang sedikit.
 
 4. Apakah penggunaan cookies aman secara default dalam pengembangan web, atau apakah ada risiko potensial yang harus diwaspadai? Bagaimana Django menangani hal tersebut?
+Tidak, penggunaaan cookies tidak aman secara default karena mempunyai risiko terhadap beberapa faktor : 
+    1. Saat kita masuk ke website yang tidak menggunakan https dengan wifi publik, penyerang yang menggunakan wifi publik yang sama dapat mengambil isi dari cookies.
+    2. Penyerang dapat memasukkan script (Javascript) yang dapat membaca isi cookies dan mengirimkannya ke server penyerang terhadap website yang keamanannya kurang
+    3. Penyerang dapat menipu browser dari user yang sudah login untuk mengirimkan request palsu ke server (CSRF)
+Django tidak menyimpan data sesi seperti username di dalam cookie, tapi hanya menyimpan sessionid (key) yang dapat digunakan untuk mengambil data sesi dari database kalo dibutuhkan. Setiap permintaan seperti POST punya token CSRF untuk setiap sesi pengguna. Token itu juga di render menggunakan tag csrf_token yang ada di 'login.html', 'register.html', dan 'add_products.html' serta disimpen di cookie. Django akan membandingkan token dari form dengan token yang ada di cookie, kalo beda permintaan akan ditolak. Di file 'settings.py', ada variabel 'SECRET_KEY' yang gunanya untuk memverifikasi apakah nilai cookie udah diubah sama pihak selain Django.
 
-Tidak, penggunaaan cookies
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
+    - Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna mengakses aplikasi sebelumnya sesuai dengan status login/logoutnya. -> Hal tsb saya lakukan dgn membuat template html yang berfungsi buat ngatur gimana user menggunakan 3 fitur tsb. Saya juga menambah 3 fungsi baru di 'views.py' buat ngatur logic dari ketiga fitur tsb. Saya juga melakukan routing di 'urls.py' 
+    - Membuat dua (2) akun pengguna dengan masing-masing tiga (3) dummy data menggunakan model yang telah dibuat sebelumnya untuk setiap akun di lokal. -> Saya melakukannya dengan membuat 2 akun user, lalu untuk setiap akun, saya menambahkan masing-masing 3 produk di 2 akun tersebut
+    - Menghubungkan model Product dengan User. -> Hal tsb saya lakukan dengan mengubah 'models.py' sedemikian rupa agar user terhubung dengan objek produk (many-to-one). Di file 'views.py', saya menambahkan beberapa line kode di fungsi 'add_products.py' yang berfungsi ketika saya membuat objek produk, akan menampilkan user yang menambahkan produk tersebut. Saya menambahkan logika untuk mem-filter produk dengan user yang menambahkanya, tidak lupa menambah kode di 'main.html' agar user bisa menggunakan logika filtering tsb. Saat kita melihat detail dari produk tsb, 'products.html' akan menampilkan siapa yang menambahkan produk tsb. 
+    - Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last_login pada halaman utama aplikasi. -> Pertama, dalam fungsi 'login_user' di file 'views.py', saya set cookie baru bernama last_login yang menyimpan kapan terakhir kali user login. Lalu, saya mengakses cookie tsb pada fungsi 'show_main' dengan melakukan .get(). Untuk mengakses username, saya mengganti 1 baris kode di fungsi 'show_main' yang mengakses variabel username dari objek user.
+
+
+     
+    
+
