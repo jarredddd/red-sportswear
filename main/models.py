@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 
 class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
     CATEGORY_CHOICES = [
         ('sepatu running', 'Sepatu Running'),
         ('jersey', 'Jersey'),
@@ -26,6 +27,7 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     description = models.TextField()
     stok = models.PositiveIntegerField(default=0)
+    
 
     
     def __str__(self):
@@ -38,5 +40,6 @@ class Product(models.Model):
     def increment_views(self):
         self.product_views += 1
         self.save()
+
 
     
