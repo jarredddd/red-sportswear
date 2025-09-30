@@ -109,11 +109,50 @@ Django tidak menyimpan data sesi seperti username di dalam cookie, tapi hanya me
 
 5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial).
     - Mengimplementasikan fungsi registrasi, login, dan logout untuk memungkinkan pengguna mengakses aplikasi sebelumnya sesuai dengan status login/logoutnya. -> Hal tsb saya lakukan dgn membuat template html yang berfungsi buat ngatur gimana user menggunakan 3 fitur tsb. Saya juga menambah 3 fungsi baru di 'views.py' buat ngatur logic dari ketiga fitur tsb. Saya juga melakukan routing di 'urls.py' 
-    - Membuat dua (2) akun pengguna dengan masing-masing tiga (3) dummy data menggunakan model yang telah dibuat sebelumnya untuk setiap akun di lokal. -> Saya melakukannya dengan membuat 2 akun user, lalu untuk setiap akun, saya menambahkan masing-masing 3 produk di 2 akun tersebut
+    - Membuat dua (2) akun pengguna dengan masing-masing tiga (3) dummy data menggunakan model yang telah dibuat sebelumnya untuk setiap akun di lokal. -> Saya melakukannya dengan membuat 2 akun user, lalu untuk setiap akun, saya menambahkan masing-masing 3 produk di 2 akun tersebut.
     - Menghubungkan model Product dengan User. -> Hal tsb saya lakukan dengan mengubah 'models.py' sedemikian rupa agar user terhubung dengan objek produk (many-to-one). Di file 'views.py', saya menambahkan beberapa line kode di fungsi 'add_products.py' yang berfungsi ketika saya membuat objek produk, akan menampilkan user yang menambahkan produk tersebut. Saya menambahkan logika untuk mem-filter produk dengan user yang menambahkanya, tidak lupa menambah kode di 'main.html' agar user bisa menggunakan logika filtering tsb. Saat kita melihat detail dari produk tsb, 'products.html' akan menampilkan siapa yang menambahkan produk tsb. 
     - Menampilkan detail informasi pengguna yang sedang logged in seperti username dan menerapkan cookies seperti last_login pada halaman utama aplikasi. -> Pertama, dalam fungsi 'login_user' di file 'views.py', saya set cookie baru bernama last_login yang menyimpan kapan terakhir kali user login. Lalu, saya mengakses cookie tsb pada fungsi 'show_main' dengan melakukan .get(). Untuk mengakses username, saya mengganti 1 baris kode di fungsi 'show_main' yang mengakses variabel username dari objek user.
 
 
-     
-    
+    TUGAS 5 --------------------------------------------------------------------------------------------------------------------------------
 
+
+1. Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Berikut ini urutannya dari yang paling atas : 
+    - !important | Contoh penggunaan : 
+    p {color: red !important;}
+    - Inline style, yaitu menerapkan CSS langsung pada elemen HTML | Contoh penggunaan : 
+    <p style="color: red">blablabla</p>
+    - ID Selector, yaitu selector yang gunakan ID unik dari sebuah elemen, ID nya ditandai dengan # | Contoh penggunaan : 
+    #intro {color: red;}
+    - Class, pseudo-class, dan attribute selector
+        Class menargetkan elemen dengan atribut class yang diawali dengan "." -> .btn {...}
+        Pseudo-class menargetkan elemen dalam keadaan tertentu seperti :hover dan :focus -> :hover {...}
+        Attribute selector menargetkan elemen berdasarkan atribut dan nilainya -> [type="text"] {...}
+    - Type selector dan pseudo-element selector
+        Type selector menargetkan semua elemen dari tipe tertentu seperti p, h1, div -> p {color: red}
+        Pseudo element selector menargetkan bagian tertentu dari suatu elemen -> p::first-line {font_weight: bold;}
+
+2. Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+Responsive design merupakan konsep yang sangat penting karena dapat memastikan aplikasi web dapat berfungsi dengan baik di berbagai perangkat seperti mempunyai ukuran screen yang berbeda. Website sekarang umumnya sudah menggunakan responsive design seperti Youtube, Google, dan lain-lain. Untuk website yang belum menggunakan responsive design, contohnya adalah SIAKNG yang belum menyesuaikan ukuran tampilan web untuk smartphone.
+
+3. Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+Margin merupakan ruang yang kosong disekitar border, border merupakan garis tepian yang membungkus konten dan paddingnya, sedangkan padding merupakan ruang kosong di dalam elemen (antara konten dan border). Dalam file css, buat .nama_kelas yang berisikan properti margin, border, dan padding. Contoh : 
+.nama_kelas {
+    padding:...px
+    border:...px
+    margin:...px
+}
+
+4. Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+Flex box adalah model tata letak yang digunakan untuk mengatur item dalam 1 dimensi, baris (horizontal) dan kolom (vertikal). Biasanya flex box digunakan untuk buat navigation bar dan menyusun item secara sejajar dalam 1 sumbu, berderet atau bertumpuk.
+Sebenernya grid layout mirip sama flex box, bedanya grid layout itu mengatur secara 2 dimensi, jadi bisa sekaligus. Grid layout biasanya dipake buat halaman web (header, sidebar, konten, footer).
+
+5. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+    - Implementasikan fungsi untuk menghapus dan mengedit product. -> Saya buat fungsi 'edit_product' dan 'delete_product' di file 'views.py'. Lalu, di 'urls.py', saya mengimport kedua fungsi tersebut dan menambah path. Setelah itu, saya menambahkan 1 file html, yaitu 'edit_product' yang berfungsi untuk mengarahkan ke url untuk edit produk.
+    - Kustomisasi desain pada template HTML yang telah dibuat pada tugas-tugas sebelumnya menggunakan CSS atau CSS framework (seperti Bootstrap, Tailwind, Bulma) dengan ketentuan sebagai berikut -> Untuk halaman login, register, tambah product, edit product, dan detail product, saya menambah elemen seperti tombol-tombol dan kotak untuk menginput variabel yang interaktif. Di detail produk, saya berusaha untuk membuat layout seperti di Tokopedia dan juga menambah 2 tombol, yaitu masukkan keranjang dan beli sekarang untuk sekedar menambah estetika walaupun tombol tsb belum ada aksi yang di assign.
+    Untuk halaman produk, saya menambahkan alamat yang mengarahkan ke folder static yang berisikan foto yang akan ditampilkan saat tidak ada produk sama sekali di 'main.html'.
+    Saya menambahkan file 'card_product.html' yang akan menampilkan semua produk yang ada. Pertama, saya membuat 'article' yang menyelimuti 'division' yang menyimpan foto dari produk dan juga satu tombol. Lalu, saya membuat 'division' lagi diluar 'article' yang menampung nama produk dan juga harga dari produk.
+    Dalam 'card_product', saya membuat 2 tombol edit dan delete dengan menambah 'division' dalam 'article' yang berisikan 'anchor'.
+    Untuk membuat navigation bar, saya menambah file baru yaitu 'navbar.html'. File tsb berisikan opsi-opsi tampilan untuk device smartphone dan juga desktop. Agar aplikasi dapat milih mana navbar yang akan ditampilkan, dalam file 'base.html' ada 1 line kode yaitu :
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /> yang berfungsi untuk menyesuaikan dengan lebar layar device.

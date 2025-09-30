@@ -38,7 +38,7 @@
         </div>
       {% endif %}
 
-      <form method="POST" action="" class="space-y-6">
+      <form method="POST" action="" class="form-style space-y-6">
         {% csrf_token %}
         
         <div>
@@ -48,7 +48,7 @@
             name="username" 
             type="text" 
             required 
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-green-500 transition-colors" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#960808] transition-colors" 
             placeholder="Enter your username">
         </div>
 
@@ -59,13 +59,13 @@
             name="password" 
             type="password" 
             required 
-            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-green-500 transition-colors" 
+            class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:border-[#960808] transition-colors" 
             placeholder="Enter your password">
         </div>
 
         <button 
           type="submit" 
-          class="w-full bg-green-600 text-white font-medium py-3 px-4 rounded-md hover:bg-green-700 transition-colors">
+          class="w-full bg-[#960808] text-white font-medium py-3 px-4 rounded-md hover:bg-[#730808] transition-colors">
           Sign In
         </button>
       </form>
@@ -94,7 +94,7 @@
       <div class="mt-6 text-center pt-6 border-t border-gray-200">
         <p class="text-gray-500 text-sm">
           Don't have an account? 
-          <a href="{% url 'main:register' %}" class="text-green-600 hover:text-green-700 font-medium">
+          <a href="{% url 'main:register' %}" class="text-[#960808] hover:text-[#730808] font-medium">
             Register Now
           </a>
         </p>
