@@ -2,117 +2,394 @@
 
 {% block meta %}
 <title>Register - Red Sportswear</title>
+<style>
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideOutRight {
+    from {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  .toast {
+    animation: slideInRight 0.3s ease-out;
+  }
+
+  .toast.hiding {
+    animation: slideOutRight 0.3s ease-in;
+  }
+
+  .register-container {
+    background: #f9fafb;
+  }
+
+  .form-card {
+    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .input-group {
+    position: relative;
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+  }
+
+  .input-with-icon {
+    padding-left: 40px;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .floating-shape {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(220, 38, 38, 0.08);
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .shape-1 {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .shape-2 {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    left: 80%;
+    animation-delay: 2s;
+  }
+
+  .shape-3 {
+    width: 100px;
+    height: 100px;
+    top: 80%;
+    left: 20%;
+    animation-delay: 4s;
+  }
+
+  .password-strength {
+    height: 4px;
+    background: #e5e7eb;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 8px;
+  }
+
+  .password-strength-bar {
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+</style>
 {% endblock meta %}
 
 {% block content %}
-<div class="form-style">
-  <div class="min-h-screen bg-gray-50 flex items-center justify-center p-8">
-    <div class="max-w-md w-full relative z-10">
-      <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-sm">
+<!-- Toast Container -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+
+<div class="register-container w-full min-h-screen flex items-center justify-center p-4 sm:p-8 relative overflow-hidden">
+  <!-- Floating Shapes -->
+  <div class="floating-shape shape-1"></div>
+  <div class="floating-shape shape-2"></div>
+  <div class="floating-shape shape-3"></div>
+
+  <div class="max-w-md w-full relative z-10">
+    <div class="form-card rounded-2xl shadow-2xl p-8 sm:p-10">
+      <!-- Logo/Icon -->
       <div class="text-center mb-8">
-        <h2 class="text-2xl font-semibold text-gray-900 mb-2">Join Us</h2>
-        <p class="text-gray-500">Create your account!</p>
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-[#dc2626] to-[#991b1b] rounded-full mb-4 shadow-lg">
+        </div>
+        <h1 class="text-3xl font-bold gradient-text mb-2">Join Us Today</h1>
+        <p class="text-gray-600">Create your Red Sportswear account</p>
       </div>
 
-      <!-- Form Errors Display -->
-      {% if form.non_field_errors %}
-        <div class="mb-6">
-          {% for error in form.non_field_errors %}
-            <div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700">
-              {{ error }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      {% if form.errors %}
-        <div class="mb-6">
-          {% for field, errors in form.errors.items %}
-            {% if field != '__all__' %}
-              {% for error in errors %}
-                <div class="px-4 py-3 rounded text-sm border bg-red-50 border-red-200 text-red-700 mb-2">
-                  <strong>{{ field|title }}:</strong> {{ error }}
-                </div>
-              {% endfor %}
-            {% endif %}
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <form method="POST" action="" class="space-y-5">
+      <form id="register-form" method="POST" class="space-y-5">
         {% csrf_token %}
         
+        <!-- Username Input -->
         <div>
-          <label for="username" class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-          <input 
-            id="username" 
-            name="username" 
-            type="text" 
-            required 
-            class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-[#960808] transition duration-200" 
-            placeholder="Choose a username">
+          <label for="username" class="block text-sm font-semibold text-gray-700 mb-2">Username</label>
+          <div class="input-group">
+            <input 
+              id="username" 
+              name="username" 
+              type="text" 
+              required 
+              class="input-with-icon w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#960808] focus:border-transparent transition-all" 
+              placeholder="Choose a username">
+          </div>
+          <p class="text-xs text-gray-500 mt-1">Must be unique and at least 3 characters</p>
         </div>
 
+        <!-- Password Input -->
         <div>
-          <label for="password1" class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-          <input 
-            id="password1" 
-            name="password1" 
-            type="password" 
-            required 
-            class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-green-500 transition duration-200" 
-            placeholder="Create a password">
+          <label for="password1" class="block text-sm font-semibold text-gray-700 mb-2">Password</label>
+          <div class="input-group">
+            <input 
+              id="password1" 
+              name="password1" 
+              type="password" 
+              required 
+              class="input-with-icon w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#960808] focus:border-transparent transition-all" 
+              placeholder="Create a strong password">
+          </div>
+          <div class="password-strength">
+            <div id="password-strength-bar" class="password-strength-bar" style="width: 0%; background: #e5e7eb;"></div>
+          </div>
+          <p id="password-strength-text" class="text-xs text-gray-500 mt-1">Password strength: <span class="font-medium">-</span></p>
         </div>
 
+        <!-- Confirm Password Input -->
         <div>
-          <label for="password2" class="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
-          <input 
-            id="password2" 
-            name="password2" 
-            type="password" 
-            required 
-            class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:border-green-500 transition duration-200" 
-            placeholder="Confirm your password">
+          <label for="password2" class="block text-sm font-semibold text-gray-700 mb-2">Confirm Password</label>
+          <div class="input-group">
+        
+            <input 
+              id="password2" 
+              name="password2" 
+              type="password" 
+              required 
+              class="input-with-icon w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#960808] focus:border-transparent transition-all" 
+              placeholder="Confirm your password">
+          </div>
+          <p id="password-match-text" class="text-xs text-gray-500 mt-1"></p>
         </div>
-
+      
+        <!-- Submit Button -->
         <button 
           type="submit" 
-          class="w-full bg-[#960808] text-white font-medium py-3 px-4 rounded hover:bg-[#730808] focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200">
-          Create Account
+          class="w-full bg-gradient-to-r from-[#960808] to-[#730808] text-white font-semibold py-3 px-4 rounded-lg hover:shadow-lg transform hover:scale-[1.02] transition-all duration-200">
+          <span class="flex items-center justify-center">
+            Create Account
+          </span>
         </button>
       </form>
 
-      <!-- Messages Display -->
-      {% if messages %}
-        <div class="mt-6">
-          {% for message in messages %}
-            <div 
-              class="
-                px-4 py-3 rounded text-sm border
-                {% if message.tags == 'success' %}
-                  bg-green-50 border-green-200 text-green-700
-                {% elif message.tags == 'error' %}
-                  bg-red-50 border-red-200 text-red-700
-                {% else %}
-                  bg-gray-50 border-gray-200 text-gray-700
-                {% endif %}
-              ">
-              {{ message }}
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-
-      <div class="mt-6 text-center">
-        <p class="text-gray-500 text-sm">
+      <!-- Login Link -->
+      <div class="mt-8 text-center pt-6 border-t border-gray-200">
+        <p class="text-gray-600 text-sm">
           Already have an account? 
-          <a href="{% url 'main:login' %}" class="text-[#960808] hover:text-[#730808] font-medium">
+          <a href="{% url 'main:login' %}" class="text-[#960808] hover:text-[#730808] font-semibold">
             Sign In
           </a>
         </p>
       </div>
-      </div>
     </div>
   </div>
 </div>
+
+<script>
+// Toast Function
+function showToast(message, type = 'error') {
+  const toastContainer = document.getElementById('toast-container');
+  
+  const toast = document.createElement('div');
+  toast.className = `toast flex items-center gap-3 px-6 py-4 rounded-lg shadow-lg max-w-sm ${
+    type === 'success' 
+      ? 'bg-green-500 text-white' 
+      : type === 'error'
+      ? 'bg-red-500 text-white'
+      : 'bg-blue-500 text-white'
+  }`;
+  
+  const icon = type === 'success' 
+    ? '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+    : type === 'error'
+    ? '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+    : '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>';
+  
+  toast.innerHTML = `
+    ${icon}
+    <span class="font-medium">${message}</span>
+  `;
+  
+  toastContainer.appendChild(toast);
+  
+  // Auto remove after 4 seconds
+  setTimeout(() => {
+    toast.classList.add('hiding');
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+// Password Strength Checker
+document.getElementById('password1').addEventListener('input', function(e) {
+  const password = e.target.value;
+  const strengthBar = document.getElementById('password-strength-bar');
+  const strengthText = document.getElementById('password-strength-text');
+  
+  let strength = 0;
+  let strengthLabel = '-';
+  let color = '#e5e7eb';
+  
+  if (password.length > 0) {
+    // Check length
+    if (password.length >= 8) strength += 25;
+    if (password.length >= 12) strength += 15;
+    
+    // Check for lowercase
+    if (/[a-z]/.test(password)) strength += 15;
+    
+    // Check for uppercase
+    if (/[A-Z]/.test(password)) strength += 15;
+    
+    // Check for numbers
+    if (/[0-9]/.test(password)) strength += 15;
+    
+    // Check for special characters
+    if (/[^A-Za-z0-9]/.test(password)) strength += 15;
+    
+    if (strength <= 30) {
+      strengthLabel = 'Weak';
+      color = '#ef4444';
+    } else if (strength <= 60) {
+      strengthLabel = 'Fair';
+      color = '#f59e0b';
+    } else if (strength <= 80) {
+      strengthLabel = 'Good';
+      color = '#3b82f6';
+    } else {
+      strengthLabel = 'Strong';
+      color = '#10b981';
+    }
+  }
+  
+  strengthBar.style.width = strength + '%';
+  strengthBar.style.background = color;
+  strengthText.innerHTML = `Password strength: <span class="font-medium" style="color: ${color}">${strengthLabel}</span>`;
+});
+
+// Password Match Checker
+document.getElementById('password2').addEventListener('input', function(e) {
+  const password1 = document.getElementById('password1').value;
+  const password2 = e.target.value;
+  const matchText = document.getElementById('password-match-text');
+  
+  if (password2.length > 0) {
+    if (password1 === password2) {
+      matchText.innerHTML = '<span class="text-green-600 font-medium">✓ Passwords match</span>';
+    } else {
+      matchText.innerHTML = '<span class="text-red-600 font-medium">✗ Passwords do not match</span>';
+    }
+  } else {
+    matchText.innerHTML = '';
+  }
+});
+
+// Form Submit Handler
+document.getElementById('register-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  
+  const username = document.getElementById('username').value;
+  const password1 = document.getElementById('password1').value;
+  const password2 = document.getElementById('password2').value;
+  const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+  const submitButton = this.querySelector('button[type="submit"]');
+  
+  // Check if passwords match
+  if (password1 !== password2) {
+    showToast('Passwords do not match!', 'error');
+    return;
+  }
+  
+  // Disable button and show loading
+  submitButton.disabled = true;
+  submitButton.innerHTML = `
+    <span class="flex items-center justify-center">
+      <svg class="animate-spin h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      Creating account...
+    </span>
+  `;
+  
+  try {
+    const response = await fetch("{% url 'main:register' %}", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrftoken,
+      },
+      body: JSON.stringify({
+        username: username,
+        password1: password1,
+        password2: password2,
+      })
+    });
+
+    const data = await response.json();
+    
+    if (data.status === 'success') {
+      showToast('Account created successfully! Redirecting to login...', 'success');
+      setTimeout(() => {
+        window.location.href = "{% url 'main:login' %}";
+      }, 2000);
+    } else {
+      showToast(data.message || 'Registration failed. Please try again.', 'error');
+      // Reset button
+      submitButton.disabled = false;
+      submitButton.innerHTML = `
+        <span class="flex items-center justify-center">
+          Create Account
+          <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </span>
+      `;
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    showToast('An error occurred. Please try again.', 'error');
+    // Reset button
+    submitButton.disabled = false;
+    submitButton.innerHTML = `
+      <span class="flex items-center justify-center">
+        Create Account
+        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </span>
+    `;
+  }
+});
+</script>
 {% endblock content %}

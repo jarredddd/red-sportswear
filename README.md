@@ -156,3 +156,27 @@ Sebenernya grid layout mirip sama flex box, bedanya grid layout itu mengatur sec
     Dalam 'card_product', saya membuat 2 tombol edit dan delete dengan menambah 'division' dalam 'article' yang berisikan 'anchor'.
     Untuk membuat navigation bar, saya menambah file baru yaitu 'navbar.html'. File tsb berisikan opsi-opsi tampilan untuk device smartphone dan juga desktop. Agar aplikasi dapat milih mana navbar yang akan ditampilkan, dalam file 'base.html' ada 1 line kode yaitu :
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /> yang berfungsi untuk menyesuaikan dengan lebar layar device.
+
+
+TUGAS 6
+1. Apa perbedaan antara synchronous request dan asynchronous request?
+Synchronous request itu adalah saat browser minta sesuatu (contoh : mengklik link), browser akan di lock dan menampilkan layar loading sampai server memberikan halaman baru secara utuh. 1 halaman akan di reload. Untuk synchronous request, browser bisa mengirim permintaan ke server di background tanpa harus reload seluruh halaman. User tetap bisa berinteraksi dengan bagian lain dari website sambil menunggu respons dari server.
+
+2. Bagaimana AJAX bekerja di Django (alur request–response)?
+User minta sesuatu (Browser) - Javascript jalan - Django respons (server) - Javascript terima dan ubah tampilan (Browser)
+
+3. Apa keuntungan menggunakan AJAX dibandingkan render biasa di Django?
+    - Respons lebih cepat : Karena server hanya mengirim data kecil (JSON) dan bukan seluruh halaman HTML, CSS, dan JavaScript lagi.\
+    - UX yang lebih mulus : Karena user tidak usah melakukan reload halaman setiap lakukan aksi.
+    - Ngurangin load server : Server gausah perlu repot-repot load ulang seluruh halaman HTML setiap saat. Cukup proses logika dan kirim data.
+    - 
+4. Bagaimana cara memastikan keamanan saat menggunakan AJAX untuk fitur Login dan Register di Django?
+    - CSRF Token dalam header request
+    - Menggunakan HTTPS
+    - Lakukan validasi di server side
+    - Pakai decorator Django (@login_required)
+
+5. Bagaimana AJAX mempengaruhi pengalaman pengguna (User Experience) pada website?
+    - Halaman web lebih responsive : Saat user mengklik sesuatu dan langsung melihat hasilnya tanpa menunggu halaman reload.
+    - Alur yang tidak terputus: User tidak kehilangan konteks. Misalnya, saat mengisi form panjang dan ada validasi username via AJAX, user tidak perlu meninggalkan halaman form hanya untuk tahu username-nya sudah dipakai.
+    - Memungkinkan fitur kompleks, contoh  : fitur map yang bisa di geser dan di zoom di Google Maps
