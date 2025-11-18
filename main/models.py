@@ -41,5 +41,24 @@ class Product(models.Model):
         self.product_views += 1
         self.save()
 
+    def as_dict(self):
+        return {
+            'id': str(self.id),
+            'user_id': self.user.id if self.user else None,
+            'user_username': self.user.username if self.user else None,
+            'title': self.title,
+            'name': self.name,
+            'category': self.category,
+            'content': self.content,
+            'description': self.description,
+            'thumbnail': self.thumbnail,
+            'price': self.price,
+            'stok': self.stok,
+            'product_views': self.product_views,
+            'is_featured': self.is_featured,
+            'is_product_hot': self.is_product_hot,
+            'created_at': self.created_at.isoformat(),
+        }
+
 
     

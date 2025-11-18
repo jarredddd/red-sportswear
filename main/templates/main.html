@@ -154,6 +154,10 @@
       <span>Create Product</span>
     </button>
 
+    <button id="ascButton" class="bg-red-500 text-white-500"> Product Price Ascending</button>
+    <button id="descButton" class="bg-red-500 text-white-500"> Product Price Descending</button>
+
+
     <!-- Filter Section with Modern Cards -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8 bg-white/80 backdrop-blur-sm rounded-2xl border-2 border-gray-200 p-5 shadow-lg">
       <div class="flex space-x-3 mb-4 sm:mb-0">
@@ -254,6 +258,13 @@ function displayPageSection({ showLoading = false, showError = false, showEmpty 
   }
 }
 
+document.getElementById("ascButton").addEventListener("click", () => {
+  fetchNewsFromServer("asc");
+})
+
+document.getElementById("descButton").addEventListener("click", () => {
+  fetchNewsFromServer("desc");
+})
 // Get readable category name
 function getReadableCategoryName(categoryCode) {
   const categoryMapping = {
@@ -391,13 +402,14 @@ function buildNewsCardElement(newsItem) {
       <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2 leading-tight">
         <a href="${detailLink}" class="hover:text-green-600 transition-colors">${title}</a>
       </h3>
-      <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">${content}</p>
+      <p class="text-gray-600 text-sm leading-relaxed line-clamp-3 mb-4">${price}</p>
       <div class="pt-4 border-t border-gray-100 flex items-center justify-between">
         <a href="${detailLink}" class="text-green-600 hover:text-green-700 font-medium text-sm transition-colors">Read more</a>
         ${editDeleteButtons}
       </div>
     </div>
   `;
+
 
   articleElement.innerHTML = completeCardHtml;
   return articleElement;
@@ -429,11 +441,11 @@ function filterAndDisplayNews() {
 }
 
 // Fetch news data from server
-async function fetchNewsFromServer() {
+async function fetchNewsFromServer(choice = "asc") {
   try {
     displayPageSection({ showLoading: true });
     
-    const response = await fetch(NEWS_API_ENDPOINT, {
+    const response = await fetch(NEWS_API_ENDPOINT + "?choice=" + choice, {
       headers: { 'Accept': 'application/json' },
     });
 
@@ -450,6 +462,7 @@ async function fetchNewsFromServer() {
     displayPageSection({ showError: true });
   }
 }
+
 
 // Event handlers
 function handleShowAllNewsClick(e) {

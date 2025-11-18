@@ -15,8 +15,98 @@ import datetime
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.utils.html import strip_tags
+import json
+import requests
+from django.views.decorators.http import require_http_methods
 
+def proxy_image(request):
+    image_url = request.GET.get('url')
+    if not image_url:
+        return HttpResponse('No URL provided', status=400)
+    
+    try:
+        # Fetch image from external source
+        response = requests.get(image_url, timeout=10)
+        response.raise_for_status()
+        
+        # Return the image with proper content type
+        return HttpResponse(
+            response.content,
+            content_type=response.headers.get('Content-Type', 'image/jpeg')
+        )
+    except requests.RequestException as e:
+        return HttpResponse(f'Error fetching image: {str(e)}', status=500)
+    
+@csrf_exempt
+@require_POST
+def create_flutter(request):
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 'error', 'detail': 'auth required'}, status=401)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'detail': 'invalid json'}, status=400)
 
+    name = strip_tags(data.get('name', '')).strip()
+    description = strip_tags(data.get('description', '')).strip()
+    title = strip_tags(data.get('title') or name).strip()
+
+    def to_int(v, d=0):
+        try:
+            return int(v)
+        except (TypeError, ValueError):
+            return d
+
+    price = to_int(data.get('price'))
+    stok = to_int(data.get('stok'))
+    category = (data.get('category') or '').strip()
+    thumbnail = (data.get('thumbnail') or '').strip() or None
+    is_featured = bool(data.get('is_featured', False))
+
+    try:
+        product = Product(
+            title=title,
+            name=name,
+            description=description,
+            category=category,
+            thumbnail=thumbnail,
+            is_featured=is_featured,
+            price=price,
+            stok=stok,
+            user=request.user,
+        )
+        product.save()
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'detail': str(e)}, status=500)
+
+    return JsonResponse({'status': 'success', 'product': product.as_dict()}, status=201)
+
+def products_all(request):
+    data = [p.as_dict() for p in Product.objects.all().select_related('user')]
+    return JsonResponse({'products': data}, status=200)
+
+@login_required(login_url="/login")
+def show_json_mine(request):
+    qs = Product.objects.filter(user=request.user).select_related("user")
+    data = [
+        {
+            "id": str(p.id),
+            "name": p.name,
+            "description": p.description,
+            "price": p.price,
+            "stok": p.stok,
+            "category": p.category,
+            "thumbnail": p.thumbnail,
+            "news_views": p.product_views,
+            "created_at": p.created_at.isoformat() if p.created_at else None,
+            "is_featured": p.is_featured,
+            "user_id": p.user_id,
+            "user_username": p.user.username if p.user else None,
+        }
+        for p in qs
+    ]
+    return JsonResponse(data, safe=False, status=200)
+    
 @csrf_exempt
 @require_POST
 def add_news_entry_ajax(request):
@@ -92,7 +182,18 @@ def show_xml(request):
     return HttpResponse(xml_data, content_type="application/xml")
 
 def show_json(request):
-    product_list = Product.objects.all()
+
+    choice = request.GET.get("choice")
+
+    if choice == "asc":
+        product_list = Product.objects.all().order_by('price')
+
+    elif choice == "desc":
+        product_list = Product.objects.all().order_by('-price')
+
+    else:
+        product_list = Product.objects.all()
+
     data = [
         {
             'id': str(product.id),
@@ -106,6 +207,7 @@ def show_json(request):
             'created_at': product.created_at.isoformat() if product.created_at else None,
             'is_featured': product.is_featured,
             'user_id': product.user_id,
+            'user_username': product.user.username if product.user else None,
         }
         for product in product_list
     ]
@@ -136,6 +238,7 @@ def show_json_by_id(request, product_id):
             'created_at': product.created_at.isoformat() if product.created_at else None,
             'is_featured': product.is_featured,
             'user_id': product.user_id,
+            'user_username': product.user.username if product.user else None,
 
     }
     return JsonResponse(data)
