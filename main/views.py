@@ -86,7 +86,7 @@ def products_all(request):
     return JsonResponse({'products': data}, status=200)
 
 @login_required(login_url="/login")
-def show_json_mine(request):
+def show_product_user(request):
     qs = Product.objects.filter(user=request.user).select_related("user")
     data = [
         {
@@ -182,7 +182,6 @@ def show_xml(request):
     return HttpResponse(xml_data, content_type="application/xml")
 
 def show_json(request):
-
     choice = request.GET.get("choice")
 
     if choice == "asc":
