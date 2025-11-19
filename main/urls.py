@@ -2,7 +2,7 @@ from django.urls import path
 from main.views import register
 from main.views import login_user
 from main.views import logout_user
-from main.views import show_main, add_products, show_products, show_xml, show_json, show_json_by_id, show_xml_by_id, edit_product, delete_product, add_news_entry_ajax, proxy_image, create_flutter, show_json_mine
+from main.views import show_main, add_products, show_products, show_xml, show_json, show_json_by_id, show_xml_by_id, edit_product, delete_product, add_news_entry_ajax, proxy_image, create_flutter, show_product_user 
 
 app_name = 'main'
 
@@ -22,5 +22,5 @@ urlpatterns = [
     path('create-news-ajax', add_news_entry_ajax, name='add_news_entry_ajax'),
     path('proxy-image/', proxy_image, name='proxy_image'),
     path('create-flutter/', create_flutter, name='create_flutter'),
-    path("show-json/mine/", show_json_mine, name="show_json_mine"),
+    path("show-product-user/", show_product_user, name="show_product_user"),
 ]
